@@ -59,7 +59,7 @@ function buildMermaidSvgs() {
     const mmdPath = path.join(scanDir, mmd);
     const svgPath = path.join(scanDir, mmd.replace(/\.mmd$/, ".svg"));
     console.log(`[1/2] mermaid SVG 生成中: ${mmdPath}`);
-    execSync(`mmdc -i "${mmdPath}" -o "${svgPath}" ${configOpt} -p "${PUPPETEER_CONFIG}" -t default --width 1200`, {
+    execSync(`mmdc -i "${mmdPath}" -o "${svgPath}" ${configOpt} -p "${PUPPETEER_CONFIG}" --width 1200`, {
       stdio: "inherit",
     });
     // mmdc が生成する中間ファイル (.mmd.svg) を削除

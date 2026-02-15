@@ -1,29 +1,48 @@
 /* @theme altus5-blue */
-@import 'default';
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap');
+@import "default";
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap");
 
 :root {
-  --accent1: #82ABDA;
-  --accent1-dark: #4A83B5;
-  --accent2: #ED7D31;
-  --dk2: #44546A;
-  --lt2: #E7E6E6;
-  --body-gray: #6E747A;
+  /* --- カラー --- */
+  --accent1: #82abda;
+  --accent1-dark: #4a83b5;
+  --accent1-light: #e6eef8;
+  --accent2: #ed7d31;
+  --dk2: #44546a;
+  --lt2: #e7e6e6;
+  --body-gray: #6e747a;
   --text: #333333;
-  --bg-end: #F0F0EE;
-  --border: #C0C0C0;
-  --table-stripe: #F5F5F4;
+  --bg-end: #f0f0ee;
+  --border: #c0c0c0;
+  --table-stripe: #f5f5f4;
+
+  /* --- スペーシング (φ = 1.618, base = 20px) ---
+     space-xs:   5px  = base / φ³
+     space-sm:   8px  = base / φ²
+     space-md:  12px  = base / φ
+     space-lg:  20px  = base
+     space-xl:  32px  = base × φ
+     space-2xl: 52px  = base × φ²
+  */
+  --base-size: 20px;
+  --space-xs: 5px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 20px;
+  --space-xl: 32px;
+  --space-2xl: 52px;
 }
 
 section {
-  font-family: 'Noto Sans JP', sans-serif;
-  font-size: 22px;
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: var(--base-size);
+  line-height: 1.618;
   color: var(--text);
   background: linear-gradient(180deg, #ffffff 0%, var(--bg-end) 100%);
-  padding: 50px 55px 40px;
+  padding: var(--space-xl) var(--space-2xl) var(--space-lg);
 }
 section::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -51,14 +70,14 @@ section.title h1 {
   font-size: 36px;
   background: var(--accent1);
   border-bottom: none;
-  padding: 14px 40px;
+  padding: var(--space-md) var(--space-xl);
   border-radius: 4px;
 }
 section.title h3 {
   color: var(--body-gray);
   font-weight: 400;
-  font-size: 22px;
-  margin-top: 12px;
+  font-size: var(--base-size);
+  margin-top: var(--space-md);
 }
 section.title strong {
   color: var(--body-gray);
@@ -68,17 +87,19 @@ section.title h2 {
   color: var(--dk2);
   border-left: 5px solid var(--accent1);
   border-bottom: none;
-  font-size: 32px;
+  font-size: var(--space-xl);
 }
-section.title p, section.title li {
+section.title p,
+section.title li {
   color: var(--text);
 }
 
 /* --- 見出し --- */
 h1 {
   font-weight: 900;
-  font-size: 32px;
+  font-size: var(--space-xl);
   color: var(--dk2);
+  margin-bottom: var(--space-xl);
 }
 h2 {
   font-weight: 700;
@@ -86,24 +107,28 @@ h2 {
   color: var(--accent1-dark);
   border-left: 5px solid var(--accent1);
   border-bottom: 2px solid var(--lt2);
-  padding: 4px 0 6px 14px;
-  margin-bottom: 18px;
+  /* 上 | 右 | 下 | 左 */
+  padding: var(--space-sm) 0 var(--space-md) var(--space-md);
+  margin-bottom: var(--space-xl);
 }
 h3 {
   font-weight: 700;
   font-size: 22px;
   color: var(--text);
-  margin-top: 10px;
-  margin-bottom: 6px;
+  margin-top: var(--space-md);
+  margin-bottom: var(--space-md);
 }
 
 /* --- 本文 --- */
-p, li {
-  line-height: 1.6;
-  margin: 4px 0;
+p {
+  margin: var(--space-md) 0;
+}
+li {
+  margin: var(--space-xs) 0;
 }
 strong {
   color: var(--accent1);
+  font-weight: 900;
 }
 a {
   color: var(--accent1-dark);
@@ -119,23 +144,24 @@ table {
   border-collapse: collapse;
   width: 100%;
   overflow: hidden;
+  margin: var(--space-md) 0;
 }
 table th {
-  background: var(--accent1);
-  color: #ffffff;
+  background: #c5d8ed;
+  color: var(--dk2);
   font-weight: 700;
-  padding: 10px 14px;
+  padding: var(--space-sm) var(--space-md);
   border: none;
-  border-left: 1px solid rgba(255,255,255,0.3);
+  border-left: 1px solid rgba(255, 255, 255, 0.5);
 }
 table th strong {
-  color: #ffffff;
+  color: var(--dk2);
 }
 table td {
   border: 1px solid var(--border);
   border-left: none;
   border-right: none;
-  padding: 8px 14px;
+  padding: var(--space-sm) var(--space-md);
 }
 table tr:nth-child(even) td {
   background: var(--table-stripe);
@@ -144,10 +170,11 @@ table tr:nth-child(even) td {
 /* --- 引用ボックス --- */
 blockquote {
   border-left: 5px solid var(--accent2);
-  background: linear-gradient(90deg, #FFF8F0 0%, #FFFDFB 100%);
-  padding: 0.6em 1.2em;
+  background: linear-gradient(90deg, #fff8f0 0%, #fffdfb 100%);
+  padding: var(--space-md) var(--space-lg);
   border-radius: 0 8px 8px 0;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  margin: var(--space-md) 0;
 }
 
 /* --- ヘッダー・フッター --- */
