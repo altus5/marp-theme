@@ -1,0 +1,9 @@
+services:
+  marp:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    volumes:
+      - ${PROJECT_DIR:-.}:/work
+    environment:
+      - WORK_DIR=/work
