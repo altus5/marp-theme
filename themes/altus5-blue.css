@@ -193,6 +193,119 @@ section::after {
   font-weight: 700;
 }
 
+/* --- 段組みレイアウト --- */
+.cols {
+  display: flex;
+  gap: 1em;
+  align-items: stretch;
+  margin-bottom: var(--box-gap, 0);
+}
+.cols:last-child {
+  margin-bottom: 0;
+}
+.cols img {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+.cols > .card,
+.cols > .box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0;
+}
+.cols > .card h3 + * {
+  flex: 1;
+}
+.around {
+  justify-content: space-around;
+}
+.between {
+  justify-content: space-between;
+}
+.around div,
+.between div {
+  margin: 0.1em;
+}
+.ratio div {
+  flex: var(--fw, 1);
+}
+
+/* --- ボックス --- */
+.box {
+  border: 1px solid var(--border);
+  border-radius: 0;
+  padding: var(--space-sm) var(--space-md);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  margin-bottom: var(--box-gap, var(--space-sm));
+}
+.box:last-child {
+  margin-bottom: 0;
+}
+
+/* --- cols wrap（折り返しで均等配置） --- */
+.cols.wrap {
+  flex-wrap: wrap;
+}
+.cols.wrap > .box {
+  flex: 1 0 calc(50% - 1em);
+  margin-bottom: 0;
+}
+
+/* --- カード（h3 + 任意の要素群を自動カード化） --- */
+.card h3 {
+  background: var(--accent1);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 18px;
+  padding: var(--space-xs) var(--space-md);
+  border: 1px solid var(--accent1);
+  border-radius: 8px 8px 0 0;
+  margin-top: var(--space-sm);
+  margin-bottom: 0;
+}
+.card h3:first-child {
+  margin-top: 0;
+}
+.card > :not(h3) {
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  padding: var(--space-xs) var(--space-md);
+  font-size: 18px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.card > :not(h3):last-child,
+.card > :not(h3):has(+ h3) {
+  border-bottom: 1px solid var(--border);
+  border-radius: 0 0 8px 8px;
+  padding-bottom: var(--space-sm);
+}
+.card > ul,
+.card > ol {
+  padding-left: var(--space-xl);
+}
+
+/* --- サマリー（h3下線） --- */
+.summary h3,
+.summary-lg h3 {
+  border-bottom: 1px solid var(--accent1);
+  padding-bottom: var(--space-xs);
+  margin-top: var(--space-md);
+  margin-bottom: var(--space-sm);
+}
+.summary h3:first-child,
+.summary-lg h3:first-child {
+  margin-top: 0;
+}
+.summary-lg {
+  font-size: 22px;
+}
+.summary-lg h3 {
+  font-size: 24px;
+}
+
 /* --- セクション区切りヘッダー --- */
 section[data-marpit-advanced-background] h2 {
   text-shadow: none;
