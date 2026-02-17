@@ -4,6 +4,7 @@
 const { execSync } = require("child_process");
 const { existsSync, readdirSync, unlinkSync } = require("fs");
 const path = require("path");
+const { buildTheme } = require("./build-theme");
 
 // --- 設定 ---
 const PROJECT_ROOT = path.join(__dirname, "..");
@@ -28,7 +29,6 @@ const output = args[1] || path.join(inputDir, `${inputBase}.pdf`);
 // --- 環境変数 ---
 const workDir = process.env.WORK_DIR || ".";
 const themeName = process.env.MARP_THEME || DEFAULT_THEME;
-const themeFile = path.join(PROJECT_ROOT, `themes/${themeName}.css`);
 
 process.chdir(workDir);
 
@@ -70,15 +70,16 @@ function buildMermaidSvgs() {
 }
 
 // --- PDF 生成 ---
-function buildPdf() {
+function buildPdf(resolvedTheme) {
   console.log(`[${hasMmd ? "2/2" : "1/1"}] PDF 生成中...`);
   execSync(
-    `marp --html --pdf --allow-local-files --theme "${themeFile}" "${input}" -o "${output}"`,
+    `marp --html --pdf --allow-local-files --theme "${resolvedTheme}" "${input}" -o "${output}"`,
     { stdio: "inherit" }
   );
 }
 
 // --- メイン ---
+const resolvedTheme = buildTheme({ themeName });
 const hasMmd = buildMermaidSvgs();
-buildPdf();
+buildPdf(resolvedTheme);
 console.log(`完了: ${output}`);

@@ -4,9 +4,32 @@ Marp 用カスタムテーマ集。
 
 ## テーマ一覧
 
-| テーマ名      | ファイル                | 特徴                                   |
-| ------------- | ----------------------- | -------------------------------------- |
-| `altus5-blue` | `themes/altus5-blue.css` | スチールブルー基調のビジネス向けテーマ |
+| テーマ名      | ソース                            | 出力                    | 特徴                                   |
+| ------------- | --------------------------------- | ----------------------- | -------------------------------------- |
+| `altus5-blue` | `themes/altus5-blue.tailwind.css` | `themes/altus5-blue.css` | スチールブルー基調のビジネス向けテーマ |
+
+テーマ CSS は Tailwind CSS v4 で記述されています。`.tailwind.css` がソースで、`build-theme.js` により `.css`（Marp が読み込む最終ファイル）にビルドされます。`@apply` でユーティリティを使用しつつ、Markdown 内でも Tailwind ユーティリティクラスを直接利用できます。
+
+## カスタムコンポーネント
+
+テーマには Markdown の `<div class="...">` で使えるレイアウトコンポーネントが含まれています。サンプルは `examples/altus5-blue.md` を参照してください。
+
+| クラス | 説明 |
+| --- | --- |
+| `.cols` | 段組みレイアウト（`.between` `.around` `.ratio` で配置制御） |
+| `.cols.wrap` | 折り返し段組み |
+| `.box` | ボーダー付きボックス（`--box-gap` で間隔調整） |
+| `.card` | ヘッダー付きカード（h3 がアクセントカラーのヘッダーになる） |
+| `.summary` / `.summary-lg` | サマリー表示（h3 にアンダーライン） |
+| `.step` | 横方向ステップ（番号付き丸アイコン、`.hl` で最終ステップをオレンジ） |
+| `.timeline` | 縦方向タイムライン（`.hl` で最終ポイントをオレンジ） |
+| `.atob` | As-Is / To-Be 比較（中央に矢印） |
+| `.synergy` | シナジー表示（左セルにシェブロン矢印） |
+| `.lead` | リード文ブロック（左にアイコン、右にテキスト、ピル型） |
+| `.point` | ポイント強調（左に丸バッジ、右にテキスト、ピル型） |
+| `.panel` | パネル（オレンジヘッダー付きボックス、`.cols.arrow` で矢印接続） |
+
+Tailwind CSS のユーティリティクラスも Markdown 内で直接使用できます（`grid`、`flex`、`bg-*`、`text-*`、`p-*`、`rounded-*` 等）。
 
 ## テーマだけを使う（CSS のみ）
 
@@ -120,10 +143,31 @@ Marp の Markdown 内に mermaid コードブロックを直接書いても、�
 
 ### ファイル構成
 
-| ファイル              | 説明                                                                  |
-| --------------------- | --------------------------------------------------------------------- |
-| `scripts/build-pdf.js` | 汎用ビルドスクリプト（Node.js）                                       |
-| `mermaid.config.json` | mermaid デフォルト設定（`diagramPadding: 200` で余白付き SVG を生成） |
+| ファイル                           | 説明                                                                  |
+| ---------------------------------- | --------------------------------------------------------------------- |
+| `scripts/build-pdf.js`             | PDF ビルドスクリプト（テーマビルド → mermaid SVG 生成 → PDF 生成）      |
+| `scripts/build-theme.js`           | テーマ CSS ビルドスクリプト（Tailwind CSS → Marp テーマ CSS）           |
+| `themes/{name}.tailwind.css`       | テーマ CSS ソース（Tailwind v4 形式、`@apply` 使用）                   |
+| `themes/{name}.css`                | ビルド済みテーマ CSS（**生成ファイル — 直接編集しない**）               |
+| `themes/{name}.mermaid.json`       | テーマ別 mermaid 配色設定                                              |
+| `mermaid.config.json`              | mermaid デフォルト設定（`diagramPadding: 200` で余白付き SVG を生成）  |
+| `examples/altus5-blue.md`              | テーマのサンプルスライド（Tailwind ユーティリティの参照元）             |
+
+### テーマ CSS のビルド
+
+`altus5-blue.css` は `.tailwind.css` から生成されるファイルです。テーマの CSS を変更した場合や、`examples/altus5-blue.md` に新しい Tailwind ユーティリティクラスを追加した場合に再ビルドが必要です。
+
+```bash
+# テーマ CSS のみビルド
+node scripts/build-theme.js
+
+# テーマを指定
+MARP_THEME=altus5-dark node scripts/build-theme.js
+```
+
+`build-pdf.js` は内部で `build-theme.js` を呼ぶため、PDF 生成時にテーマも自動でリビルドされます。
+
+> **Tailwind ユーティリティの追加方法:** Markdown 内で新しい Tailwind クラス（例: `bg-green-100`）を使う場合は、`examples/altus5-blue.md` にもそのクラスを記載してください。テーマ CSS は `examples/` を基準にビルドされるため、ここに記載のないクラスは CSS に含まれません。
 
 ### 使い方
 
