@@ -6,13 +6,13 @@ Marp 用カスタムテーマ集。
 
 | テーマ名      | ソース                            | 出力                    | 特徴                                   |
 | ------------- | --------------------------------- | ----------------------- | -------------------------------------- |
-| `altus5-blue` | `themes/altus5-blue.tailwind.css` | `themes/altus5-blue.css` | スチールブルー基調のビジネス向けテーマ |
+| `rooster-blue` | `themes/rooster-blue.tailwind.css` | `themes/rooster-blue.css` | スチールブルー基調のビジネス向けテーマ |
 
 テーマ CSS は Tailwind CSS v4 で記述されています。`.tailwind.css` がソースで、`build-theme.js` により `.css`（Marp が読み込む最終ファイル）にビルドされます。`@apply` でユーティリティを使用しつつ、Markdown 内でも Tailwind ユーティリティクラスを直接利用できます。
 
 ## カスタムコンポーネント
 
-テーマには Markdown の `<div class="...">` で使えるレイアウトコンポーネントが含まれています。サンプルは `examples/altus5-blue.md` を参照してください。
+テーマには Markdown の `<div class="...">` で使えるレイアウトコンポーネントが含まれています。サンプルは `examples/rooster-blue.md` を参照してください。
 
 | クラス | 説明 |
 | --- | --- |
@@ -40,7 +40,7 @@ GitHub URL を指定するだけで利用できます。クローン不要です
 ```yaml
 ---
 marp: true
-theme: altus5-blue
+theme: rooster-blue
 paginate: true
 header: "ヘッダーテキスト"
 footer: "フッターテキスト"
@@ -51,7 +51,7 @@ footer: "フッターテキスト"
 
 ```bash
 npx @marp-team/marp-cli --html --pdf \
-  --theme https://raw.githubusercontent.com/altus5/marp-theme/main/themes/altus5-blue.css \
+  --theme https://raw.githubusercontent.com/altus5/marp-theme/main/themes/rooster-blue.css \
   slides.md
 ```
 
@@ -66,7 +66,7 @@ npx @marp-team/marp-cli --html --pdf \
 ```json
 {
   "markdown.marp.themes": [
-    "https://raw.githubusercontent.com/altus5/marp-theme/main/themes/altus5-blue.css"
+    "https://raw.githubusercontent.com/altus5/marp-theme/main/themes/rooster-blue.css"
   ]
 }
 ```
@@ -77,7 +77,7 @@ npx @marp-team/marp-cli --html --pdf \
 
 ```json
 {
-  "markdown.marp.themes": ["./themes/altus5-blue.css"]
+  "markdown.marp.themes": ["./themes/rooster-blue.css"]
 }
 ```
 
@@ -89,13 +89,13 @@ npx @marp-team/marp-cli --html --pdf \
 >
 > ```bash
 > # 例: my-project から marp-theme の CSS を参照
-> ln -s ../marp-theme/themes/altus5-blue.css my-project/themes/altus5-blue.css
+> ln -s ../marp-theme/themes/rooster-blue.css my-project/themes/rooster-blue.css
 > ```
 
 #### プレビュー方法
 
 1. [Marp for VS Code](https://marketplace.visualstudio.com/items?itemName=marp-team.marp-vscode) 拡張をインストール
-2. フロントマターに `marp: true` と `theme: altus5-blue` を記述
+2. フロントマターに `marp: true` と `theme: rooster-blue` を記述
 3. `Ctrl+Shift+V`（Mac: `Cmd+Shift+V`）でプレビュー表示
 4. `Ctrl+K V`（Mac: `Cmd+K V`）でサイドバイサイドプレビュー
 
@@ -151,11 +151,11 @@ Marp の Markdown 内に mermaid コードブロックを直接書いても、�
 | `themes/{name}.css`                | ビルド済みテーマ CSS（**生成ファイル — 直接編集しない**）               |
 | `themes/{name}.mermaid.json`       | テーマ別 mermaid 配色設定                                              |
 | `mermaid.config.json`              | mermaid デフォルト設定（`diagramPadding: 200` で余白付き SVG を生成）  |
-| `examples/altus5-blue.md`              | テーマのサンプルスライド（Tailwind ユーティリティの参照元）             |
+| `examples/rooster-blue.md`              | テーマのサンプルスライド（Tailwind ユーティリティの参照元）             |
 
 ### テーマ CSS のビルド
 
-`altus5-blue.css` は `.tailwind.css` から生成されるファイルです。テーマの CSS を変更した場合や、`examples/altus5-blue.md` に新しい Tailwind ユーティリティクラスを追加した場合に再ビルドが必要です。
+`rooster-blue.css` は `.tailwind.css` から生成されるファイルです。テーマの CSS を変更した場合や、`examples/rooster-blue.md` に新しい Tailwind ユーティリティクラスを追加した場合に再ビルドが必要です。
 
 ```bash
 # テーマ CSS のみビルド
@@ -167,7 +167,7 @@ MARP_THEME=altus5-dark node scripts/build-theme.js
 
 `build-pdf.js` は内部で `build-theme.js` を呼ぶため、PDF 生成時にテーマも自動でリビルドされます。
 
-> **Tailwind ユーティリティの追加方法:** Markdown 内で新しい Tailwind クラス（例: `bg-green-100`）を使う場合は、`examples/altus5-blue.md` にもそのクラスを記載してください。テーマ CSS は `examples/` を基準にビルドされるため、ここに記載のないクラスは CSS に含まれません。
+> **Tailwind ユーティリティの追加方法:** Markdown 内で新しい Tailwind クラス（例: `bg-green-100`）を使う場合は、`examples/rooster-blue.md` にもそのクラスを記載してください。テーマ CSS は `examples/` を基準にビルドされるため、ここに記載のないクラスは CSS に含まれません。
 
 ### 使い方
 
@@ -187,7 +187,7 @@ MARP_THEME=altus5-dark WORK_DIR=/path/to/project node /path/to/marp-theme/script
 | 変数         | デフォルト    | 説明                                          |
 | ------------ | ------------- | --------------------------------------------- |
 | `WORK_DIR`   | `.`           | プロジェクトディレクトリのパス                |
-| `MARP_THEME` | `altus5-blue` | 使用するテーマ名（`themes/{name}.css` に対応） |
+| `MARP_THEME` | `rooster-blue` | 使用するテーマ名（`themes/{name}.css` に対応） |
 
 ### mermaid ファイルの命名規則
 
@@ -214,7 +214,7 @@ Markdown ファイルが `slides.md` の場合:
 | 2 | `themes/{themeName}.mermaid.json` | テーマ別の配色・設定 |
 | 3 | `mermaid.config.json`（ルート） | 共通デフォルト |
 
-テーマ別設定（例: `themes/altus5-blue.mermaid.json`）では、`themeVariables` でテーマの CSS カラーに合わせた mermaid 図の配色を定義できます。
+テーマ別設定（例: `themes/rooster-blue.mermaid.json`）では、`themeVariables` でテーマの CSS カラーに合わせた mermaid 図の配色を定義できます。
 
 ---
 

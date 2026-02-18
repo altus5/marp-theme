@@ -8,7 +8,7 @@ const { buildTheme } = require("./build-theme");
 
 // --- 設定 ---
 const PROJECT_ROOT = path.join(__dirname, "..");
-const DEFAULT_THEME = "altus5-blue";
+const DEFAULT_THEME = "rooster-blue";
 const PUPPETEER_CONFIG = path.join(PROJECT_ROOT, "puppeteer-config.json");
 
 // node_modules/.bin を PATH に追加（ローカル実行用）

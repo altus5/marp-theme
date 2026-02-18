@@ -7,7 +7,7 @@ const path = require("path");
 
 // --- 設定 ---
 const PROJECT_ROOT = path.join(__dirname, "..");
-const DEFAULT_THEME = "altus5-blue";
+const DEFAULT_THEME = "rooster-blue";
 
 // node_modules/.bin を PATH に追加（ローカル実行用）
 const binDir = path.join(PROJECT_ROOT, "node_modules", ".bin");
@@ -20,7 +20,7 @@ process.env.PATH = `${binDir}${path.delimiter}${process.env.PATH}`;
  * テーマ CSS は常に同一の内容になる（入力 md に依存しない）。
  *
  * @param {object} options
- * @param {string} [options.themeName] - テーマ名（デフォルト: altus5-blue）
+ * @param {string} [options.themeName] - テーマ名（デフォルト: rooster-blue）
  * @returns {string} ビルド済みテーマ CSS ファイルパス
  */
 function buildTheme({ themeName = DEFAULT_THEME } = {}) {

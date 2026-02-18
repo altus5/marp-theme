@@ -1,8 +1,8 @@
 ---
 marp: true
-theme: altus5-blue
+theme: rooster-blue
 paginate: true
-header: "altus5-blue テーマ サンプル"
+header: "rooster-blue テーマ サンプル"
 footer: "© 2026 Your Company"
 ---
 
@@ -11,11 +11,12 @@ footer: "© 2026 Your Company"
 <!-- _header: "" -->
 <!-- _footer: "" -->
 
-# プレゼンテーションタイトル
+# 🐔 プレゼンテーションタイトル
 
 ### 〜サブタイトルをここに記載〜
 
-**会社名 / 発表者名**
+YYYY/MM/DD  
+**会社名**
 
 ---
 

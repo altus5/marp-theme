@@ -1,6 +1,6 @@
 ---
 marp: true
-theme: altus5-blue
+theme: rooster-blue
 paginate: true
 header: "mermaid 図を含むサンプル"
 footer: "© 2026 Your Company"
@@ -19,7 +19,7 @@ footer: "© 2026 Your Company"
 
 ## システム構成図
 
-![bg right:55% contain](altus5-blue-mermaid_flowchart.svg)
+![bg right:55% contain](rooster-blue-mermaid_flowchart.svg)
 
 - mermaid で記述した図を **事前に SVG に変換**して埋め込み
 - `bg right contain` でスライド右側に配置
@@ -31,9 +31,9 @@ footer: "© 2026 Your Company"
 
 | ファイル | 役割 |
 |---|---|
-| `altus5-blue-mermaid.md` | Markdown 本体 |
-| `altus5-blue-mermaid_flowchart.mmd` | mermaid ソース |
-| `altus5-blue-mermaid_flowchart.svg` | ビルド時に自動生成 |
+| `rooster-blue-mermaid.md` | Markdown 本体 |
+| `rooster-blue-mermaid_flowchart.mmd` | mermaid ソース |
+| `rooster-blue-mermaid_flowchart.svg` | ビルド時に自動生成 |
 
 > `{mdのベース名}_{図の名前}.mmd` の命名規則に従うと、ビルドスクリプトが自動検出して SVG に変換します。
 
