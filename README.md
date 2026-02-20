@@ -4,32 +4,12 @@ Marp 用カスタムテーマ集。
 
 ## テーマ一覧
 
-| テーマ名      | ソース                            | 出力                    | 特徴                                   |
-| ------------- | --------------------------------- | ----------------------- | -------------------------------------- |
-| `rooster-blue` | `themes/rooster-blue.tailwind.css` | `themes/rooster-blue.css` | スチールブルー基調のビジネス向けテーマ |
+| テーマ名          | ソース                                | 出力                         | 特徴                                   |
+| ----------------- | ------------------------------------- | ---------------------------- | -------------------------------------- |
+| `rooster-blue`    | `themes/rooster-blue.tailwind.css`    | `themes/rooster-blue.css`    | スチールブルー基調のビジネス向けテーマ |
+| `rooster-a4-mono` | `themes/rooster-a4-mono.tailwind.css` | `themes/rooster-a4-mono.css` | A4 仕様書向けフォーマルテーマ          |
 
 テーマ CSS は Tailwind CSS v4 で記述されています。`.tailwind.css` がソースで、`build-theme.js` により `.css`（Marp が読み込む最終ファイル）にビルドされます。`@apply` でユーティリティを使用しつつ、Markdown 内でも Tailwind ユーティリティクラスを直接利用できます。
-
-## カスタムコンポーネント
-
-テーマには Markdown の `<div class="...">` で使えるレイアウトコンポーネントが含まれています。サンプルは `examples/rooster-blue.md` を参照してください。
-
-| クラス | 説明 |
-| --- | --- |
-| `.cols` | 段組みレイアウト（`.between` `.around` `.ratio` で配置制御） |
-| `.cols.wrap` | 折り返し段組み |
-| `.box` | ボーダー付きボックス（`--box-gap` で間隔調整） |
-| `.card` | ヘッダー付きカード（h3 がアクセントカラーのヘッダーになる） |
-| `.summary` / `.summary-lg` | サマリー表示（h3 にアンダーライン） |
-| `.step` | 横方向ステップ（番号付き丸アイコン、`.hl` で最終ステップをオレンジ） |
-| `.timeline` | 縦方向タイムライン（`.hl` で最終ポイントをオレンジ） |
-| `.atob` | As-Is / To-Be 比較（中央に矢印） |
-| `.synergy` | シナジー表示（左セルにシェブロン矢印） |
-| `.lead` | リード文ブロック（左にアイコン、右にテキスト、ピル型） |
-| `.point` | ポイント強調（左に丸バッジ、右にテキスト、ピル型） |
-| `.panel` | パネル（オレンジヘッダー付きボックス、`.cols.arrow` で矢印接続） |
-
-Tailwind CSS のユーティリティクラスも Markdown 内で直接使用できます（`grid`、`flex`、`bg-*`、`text-*`、`p-*`、`rounded-*` 等）。
 
 ## テーマだけを使う（CSS のみ）
 
@@ -66,7 +46,8 @@ npx @marp-team/marp-cli --html --pdf \
 ```json
 {
   "markdown.marp.themes": [
-    "https://raw.githubusercontent.com/altus5/marp-theme/main/themes/rooster-blue.css"
+    "https://raw.githubusercontent.com/altus5/marp-theme/main/themes/rooster-blue.css",
+    "https://raw.githubusercontent.com/altus5/marp-theme/main/themes/rooster-a4-mono.css"
   ]
 }
 ```
@@ -77,7 +58,10 @@ npx @marp-team/marp-cli --html --pdf \
 
 ```json
 {
-  "markdown.marp.themes": ["./themes/rooster-blue.css"]
+  "markdown.marp.themes": [
+    "./themes/rooster-blue.css",
+    "./themes/rooster-a4-mono.css"
+  ]
 }
 ```
 
@@ -100,6 +84,41 @@ npx @marp-team/marp-cli --html --pdf \
 4. `Ctrl+K V`（Mac: `Cmd+K V`）でサイドバイサイドプレビュー
 
 > **Tips:** プレビューがスライド表示にならない場合は、`Ctrl+Shift+P` → `Toggle Marp` を 2 回実行（OFF → ON）すると表示されることがあります。
+
+### rooster-blue のカスタムコンポーネント
+
+テーマには Markdown の `<div class="...">` で使えるレイアウトコンポーネントが含まれています。サンプルは `examples/rooster-blue.md` を参照してください。
+
+| クラス                     | 説明                                                                 |
+| -------------------------- | -------------------------------------------------------------------- |
+| `.cols`                    | 段組みレイアウト（`.between` `.around` `.ratio` で配置制御）         |
+| `.cols.wrap`               | 折り返し段組み                                                       |
+| `.box`                     | ボーダー付きボックス（`--box-gap` で間隔調整）                       |
+| `.card`                    | ヘッダー付きカード（h3 がアクセントカラーのヘッダーになる）          |
+| `.summary` / `.summary-lg` | サマリー表示（h3 にアンダーライン）                                  |
+| `.step`                    | 横方向ステップ（番号付き丸アイコン、`.hl` で最終ステップをオレンジ） |
+| `.timeline`                | 縦方向タイムライン（`.hl` で最終ポイントをオレンジ）                 |
+| `.atob`                    | As-Is / To-Be 比較（中央に矢印）                                     |
+| `.synergy`                 | シナジー表示（左セルにシェブロン矢印）                               |
+| `.lead`                    | リード文ブロック（左にアイコン、右にテキスト、ピル型）               |
+| `.point`                   | ポイント強調（左に丸バッジ、右にテキスト、ピル型）                   |
+| `.panel`                   | パネル（オレンジヘッダー付きボックス、`.cols.arrow` で矢印接続）     |
+
+Tailwind CSS のユーティリティクラスも Markdown 内で直接使用できます（`grid`、`flex`、`bg-*`、`text-*`、`p-*`、`rounded-*` 等）。
+
+### rooster-a4-mono テーマについて
+
+A4 縦（210mm x 297mm）の仕様書・設計書向けテーマです。サンプルは `examples/rooster-a4-mono.md` を参照してください。
+
+- タイトルページ、改版履歴、目次、本文の構成
+- ヘッダーは `<span>` で左右分割（`display: flex; justify-content: space-between`）
+- `_paginate: skip` で前付けページをページ番号カウントから除外可能
+- テーブルはページ幅全体に広がるスタイル
+
+```bash
+# PDF 生成
+MARP_THEME=rooster-a4-mono node scripts/build-pdf.js examples/rooster-a4-mono.md
+```
 
 ---
 
@@ -143,15 +162,16 @@ Marp の Markdown 内に mermaid コードブロックを直接書いても、�
 
 ### ファイル構成
 
-| ファイル                           | 説明                                                                  |
-| ---------------------------------- | --------------------------------------------------------------------- |
-| `scripts/build-pdf.js`             | PDF ビルドスクリプト（テーマビルド → mermaid SVG 生成 → PDF 生成）      |
-| `scripts/build-theme.js`           | テーマ CSS ビルドスクリプト（Tailwind CSS → Marp テーマ CSS）           |
-| `themes/{name}.tailwind.css`       | テーマ CSS ソース（Tailwind v4 形式、`@apply` 使用）                   |
-| `themes/{name}.css`                | ビルド済みテーマ CSS（**生成ファイル — 直接編集しない**）               |
-| `themes/{name}.mermaid.json`       | テーマ別 mermaid 配色設定                                              |
-| `mermaid.config.json`              | mermaid デフォルト設定（`diagramPadding: 200` で余白付き SVG を生成）  |
-| `examples/rooster-blue.md`              | テーマのサンプルスライド（Tailwind ユーティリティの参照元）             |
+| ファイル                      | 説明                                                                  |
+| ----------------------------- | --------------------------------------------------------------------- |
+| `scripts/build-pdf.js`        | PDF ビルドスクリプト（テーマビルド → mermaid SVG 生成 → PDF 生成）    |
+| `scripts/build-theme.js`      | テーマ CSS ビルドスクリプト（Tailwind CSS → Marp テーマ CSS）         |
+| `themes/{name}.tailwind.css`  | テーマ CSS ソース（Tailwind v4 形式、`@apply` 使用）                  |
+| `themes/{name}.css`           | ビルド済みテーマ CSS（**生成ファイル — 直接編集しない**）             |
+| `themes/{name}.mermaid.json`  | テーマ別 mermaid 配色設定                                             |
+| `mermaid.config.json`         | mermaid デフォルト設定（`diagramPadding: 200` で余白付き SVG を生成） |
+| `examples/rooster-blue.md`    | rooster-blue テーマのサンプルスライド                                 |
+| `examples/rooster-a4-mono.md` | rooster-a4-mono テーマのサンプル仕様書                                |
 
 ### テーマ CSS のビルド
 
@@ -184,9 +204,9 @@ MARP_THEME=altus5-dark WORK_DIR=/path/to/project node /path/to/marp-theme/script
 
 ### 環境変数
 
-| 変数         | デフォルト    | 説明                                          |
-| ------------ | ------------- | --------------------------------------------- |
-| `WORK_DIR`   | `.`           | プロジェクトディレクトリのパス                |
+| 変数         | デフォルト     | 説明                                           |
+| ------------ | -------------- | ---------------------------------------------- |
+| `WORK_DIR`   | `.`            | プロジェクトディレクトリのパス                 |
 | `MARP_THEME` | `rooster-blue` | 使用するテーマ名（`themes/{name}.css` に対応） |
 
 ### mermaid ファイルの命名規則
@@ -208,11 +228,11 @@ Markdown ファイルが `slides.md` の場合:
 
 ビルドスクリプトは以下の優先順で mermaid 設定ファイルを探します。
 
-| 優先度 | ファイル | 説明 |
-| ------ | -------- | ---- |
-| 1 | `mermaid.config.json`（プロジェクト側） | プロジェクト固有の設定 |
-| 2 | `themes/{themeName}.mermaid.json` | テーマ別の配色・設定 |
-| 3 | `mermaid.config.json`（ルート） | 共通デフォルト |
+| 優先度 | ファイル                                | 説明                   |
+| ------ | --------------------------------------- | ---------------------- |
+| 1      | `mermaid.config.json`（プロジェクト側） | プロジェクト固有の設定 |
+| 2      | `themes/{themeName}.mermaid.json`       | テーマ別の配色・設定   |
+| 3      | `mermaid.config.json`（ルート）         | 共通デフォルト         |
 
 テーマ別設定（例: `themes/rooster-blue.mermaid.json`）では、`themeVariables` でテーマの CSS カラーに合わせた mermaid 図の配色を定義できます。
 

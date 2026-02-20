@@ -1,0 +1,601 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap");
+
+@layer theme, utilities;
+@import "tailwindcss/theme" layer(theme);
+@import "tailwindcss/utilities" layer(utilities);
+
+@theme {
+  --color-accent: #82abda;
+  --color-accent-dark: #4a83b5;
+  --color-accent-light: #e6eef8;
+  --color-highlight: #ed7d31;
+  --color-navy: #44546a;
+  --color-silver: #e7e6e6;
+  --color-muted: #6e747a;
+  --color-body: #333333;
+  --color-stripe: #f5f5f4;
+  --shadow-subtle: 0 2px 6px rgba(0, 0, 0, 0.06);
+  --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* ===========================
+   スライド共通
+   =========================== */
+section {
+  @apply text-body;
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 12px;
+  line-height: 1.618;
+  padding: 25px 35px;
+  width: 210mm;
+  height: 297mm;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: start;
+  padding-top: 65px;
+}
+
+section::after {
+  content: "- " attr(data-marpit-pagination) " -";
+  font-size: 10px;
+  width: 100%;
+  left: 0;
+  text-align: center;
+}
+
+/* ===========================
+   タイトルスライド
+   =========================== */
+section.title {
+  @apply bg-white text-body flex flex-col justify-center items-center text-center;
+  padding-top: 60px;
+}
+section.title::before {
+  display: none;
+}
+section.title h1 {
+  @apply text-body font-black;
+  font-size: 24px;
+  background: none;
+  border-bottom: none;
+  padding: 0;
+  margin-bottom: 8px;
+}
+section.title h2 {
+  @apply text-body font-bold;
+  font-size: 18px;
+  border-left: none;
+  border-bottom: none;
+  padding: 0;
+  margin-bottom: 4px;
+}
+section.title h3 {
+  @apply text-body font-bold;
+  font-size: 16px;
+  margin-top: 4px;
+}
+section.title strong {
+  @apply text-body;
+  font-size: 12px;
+}
+section.title p,
+section.title li {
+  @apply text-body;
+  font-size: 14px;
+}
+section.title table {
+  position: absolute;
+  bottom: 40px;
+  left: 35px;
+  right: 35px;
+  width: calc(100% - 70px);
+  font-size: 12px;
+  border-radius: 0;
+  box-shadow: none;
+}
+section.title table th {
+  background: none;
+  @apply text-body font-normal;
+}
+
+/* ===========================
+   見出し
+   =========================== */
+h1 {
+  @apply font-black text-body;
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+h2 {
+  @apply font-bold text-body;
+  font-size: 14px;
+  border-left: none;
+  border-bottom: none;
+  padding: 0;
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+h3 {
+  @apply font-bold text-body;
+  font-size: 12px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+/* ===========================
+   本文
+   =========================== */
+p {
+  margin: 12px 0;
+}
+li {
+  margin: 5px 0;
+}
+strong {
+  @apply text-body font-bold;
+}
+a {
+  @apply text-body underline;
+}
+ul li::marker {
+  @apply text-body;
+}
+
+/* ===========================
+   テーブル
+   =========================== */
+table {
+  display: table;
+  @apply border border-gray-400;
+  border-collapse: collapse;
+  table-layout: auto;
+  width: 100%;
+  font-size: 12px;
+  margin: 12px 0;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: visible;
+}
+table th,
+table td {
+  @apply border border-gray-400;
+  padding: 4px 8px;
+}
+table th {
+  @apply text-body font-bold;
+  background: #f0f0f0;
+}
+
+/* ===========================
+   引用ボックス
+   =========================== */
+blockquote {
+  border-left: 3px solid #999;
+  background: #fafafa;
+  padding: 8px 16px;
+  border-radius: 0;
+  margin: 12px 0;
+  box-shadow: none;
+}
+
+/* ===========================
+   ヘッダー・フッター
+   =========================== */
+header {
+  @apply text-body font-normal;
+  font-size: 10px;
+  letter-spacing: 0.02em;
+  border-bottom: 1px solid #333;
+  padding-bottom: 4px;
+  left: 35px;
+  right: 35px;
+  width: auto;
+  display: flex;
+  justify-content: space-between;
+}
+footer {
+  @apply text-muted;
+  font-size: 10px;
+}
+section::after {
+  @apply text-body font-normal;
+  font-size: 10px;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+/* ===========================
+   段組みレイアウト (.cols)
+   =========================== */
+.cols {
+  @apply flex items-stretch;
+  gap: 1em;
+  margin-bottom: var(--box-gap, 0);
+}
+.cols:last-child {
+  @apply mb-0;
+}
+.cols img {
+  @apply max-w-full h-auto object-contain;
+}
+.cols > .card,
+.cols > .box {
+  @apply flex-1 flex flex-col mb-0;
+}
+.cols > .card h3 + * {
+  @apply flex-1;
+}
+.around {
+  @apply justify-around;
+}
+.between {
+  @apply justify-between;
+}
+.around div,
+.between div {
+  margin: 0.1em;
+}
+.ratio div {
+  flex: var(--fw, 1);
+}
+
+/* ===========================
+   ボックス (.box)
+   =========================== */
+.box {
+  @apply border border-gray-500 shadow-subtle rounded;
+  padding: 8px 12px;
+  margin-bottom: var(--box-gap, 8px);
+}
+.box:last-child {
+  @apply mb-0;
+}
+
+/* ===========================
+   cols wrap（折り返しで均等配置）
+   =========================== */
+.cols.wrap {
+  @apply flex-wrap;
+}
+.cols.wrap > .box {
+  @apply mb-0;
+  flex: 1 0 calc(50% - 1em);
+}
+
+/* ===========================
+   カード (.card)
+   =========================== */
+.card h3 {
+  @apply bg-accent text-white font-bold border border-accent;
+  font-size: 12px;
+  padding: 3px 8px;
+  border-radius: 5px 5px 0 0;
+  margin-top: 8px;
+  margin-bottom: 0;
+}
+.card h3:first-child {
+  @apply mt-0;
+}
+.card > :not(h3) {
+  @apply border-l border-r border-[#c0c0c0];
+  padding: 3px 8px;
+  font-size: 12px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.card > :not(h3):last-child,
+.card > :not(h3):has(+ h3) {
+  @apply border-b border-[#c0c0c0];
+  border-radius: 0 0 5px 5px;
+  padding-bottom: 5px;
+}
+.card > ul,
+.card > ol {
+  padding-left: 20px;
+}
+
+/* ===========================
+   サマリー (.summary, .summary-lg)
+   =========================== */
+.summary h3,
+.summary-lg h3 {
+  @apply border-b border-accent;
+  padding-bottom: 5px;
+  margin-top: 12px;
+  margin-bottom: 8px;
+}
+.summary h3:first-child,
+.summary-lg h3:first-child {
+  @apply mt-0;
+}
+.summary-lg {
+  font-size: 14px;
+}
+.summary-lg h3 {
+  font-size: 14px;
+}
+
+/* ===========================
+   ステップ (.step)
+   =========================== */
+.step {
+  @apply grid grid-cols-4 gap-4 relative;
+  counter-reset: step;
+  padding-top: 32px;
+}
+.step::before {
+  content: "";
+  @apply absolute bg-accent;
+  top: 12px;
+  left: calc((100% - 3rem) / 8);
+  right: calc((100% - 3rem) / 8);
+  height: 2px;
+}
+.step > div {
+  @apply text-center relative;
+  counter-increment: step;
+}
+.step > div::before {
+  content: counter(step);
+  @apply absolute bg-accent text-white font-bold rounded-full;
+  top: -32px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  font-size: 12px;
+}
+.step > div h3 {
+  @apply font-bold text-body;
+  font-size: 12px;
+  border: none;
+  padding: 0;
+  margin: 0 0 4px;
+}
+.step.hl > div:last-child::before {
+  @apply bg-highlight;
+}
+.step > div > p {
+  @apply bg-blue-50 rounded;
+  font-size: 10px;
+  padding: 5px;
+  margin: 0;
+}
+
+/* ===========================
+   タイムライン (.timeline)
+   =========================== */
+.timeline {
+  @apply relative;
+  padding-left: 24px;
+}
+.timeline::before {
+  content: "";
+  @apply absolute bg-accent;
+  left: 4px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+}
+.timeline > div {
+  @apply relative;
+  margin-bottom: 8px;
+}
+.timeline > div:last-child {
+  @apply mb-0;
+}
+.timeline > div::before {
+  content: "";
+  @apply absolute bg-accent rounded-full;
+  left: -24px;
+  top: 4px;
+  width: 10px;
+  height: 10px;
+}
+.timeline > div h3 {
+  @apply text-muted font-normal;
+  font-size: 12px;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+.timeline > div > p {
+  @apply text-accent-dark font-bold;
+  font-size: 12px;
+  margin: 2px 0 0;
+}
+.timeline.hl > div:last-child::before {
+  @apply bg-highlight;
+}
+
+/* ===========================
+   As-Is / To-Be (.atob)
+   =========================== */
+.atob {
+  @apply flex items-stretch relative;
+  gap: 2em;
+}
+.atob::after {
+  content: "";
+  @apply absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 11px solid var(--color-accent);
+}
+.atob > div {
+  @apply flex-1 rounded-lg overflow-hidden;
+}
+.atob > div h3 {
+  @apply font-bold text-white;
+  font-size: 12px;
+  padding: 5px 10px;
+  margin: 0;
+  border: none;
+}
+.atob > div > :not(h3) {
+  padding: 5px 10px;
+  font-size: 12px;
+  margin: 0;
+}
+.atob > div > ul,
+.atob > div > ol {
+  padding-left: 22px;
+}
+.atob > div > :not(h3):last-child {
+  padding-bottom: 8px;
+}
+/* As-Is: navy */
+.atob > div:first-child {
+  @apply border border-navy;
+}
+.atob > div:first-child h3 {
+  @apply bg-navy;
+}
+/* To-Be: accent */
+.atob > div:last-child {
+  @apply border border-accent;
+}
+.atob > div:last-child h3 {
+  @apply bg-accent;
+}
+
+/* ===========================
+   シナジー (.synergy)
+   =========================== */
+.synergy {
+  @apply grid grid-cols-2;
+  gap: 5px;
+}
+.synergy > div:nth-child(-n + 2) {
+  @apply text-highlight font-bold;
+  font-size: 12px;
+  padding: 0 4px;
+}
+.synergy > div:nth-child(odd):nth-child(n + 3) {
+  @apply text-white font-bold text-center relative;
+  @apply bg-highlight;
+  padding: 8px 10px;
+  font-size: 12px;
+  border-radius: 4px 0 0 4px;
+  z-index: 1;
+}
+.synergy > div:nth-child(odd):nth-child(n + 3)::after {
+  content: "";
+  @apply absolute;
+  right: -9px;
+  top: 0;
+  bottom: 0;
+  width: 10px;
+  background: var(--color-highlight);
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+.synergy > div:nth-child(even):nth-child(n + 4) {
+  @apply border border-[#c0c0c0] text-center text-body;
+  padding: 8px 10px 8px 17px;
+  font-size: 12px;
+  border-radius: 0 4px 4px 0;
+}
+.synergy p {
+  margin: 0;
+}
+
+/* ===========================
+   リード (.lead)
+   =========================== */
+.lead {
+  @apply flex items-center border border-[#c0c0c0] bg-white;
+  border-radius: 36px;
+  padding: 14px 29px;
+  gap: 12px;
+}
+.lead > div:first-child {
+  @apply flex-shrink-0;
+  font-size: 34px;
+  line-height: 1;
+}
+.lead > div:last-child {
+  @apply text-body;
+  font-size: 20px;
+  line-height: 1.5;
+}
+.lead p {
+  margin: 0;
+}
+
+/* ===========================
+   パネル (.panel)
+   =========================== */
+.panel {
+  @apply rounded-lg overflow-hidden border border-[#c0c0c0];
+}
+.panel h3 {
+  @apply bg-highlight text-white font-bold text-center;
+  font-size: 12px;
+  padding: 5px 10px;
+  margin: 0;
+  border: none;
+}
+.panel > :not(h3) {
+  padding: 5px 10px;
+  font-size: 12px;
+  margin: 0;
+}
+.panel > :not(h3):last-child {
+  padding-bottom: 8px;
+}
+.panel > ul,
+.panel > ol {
+  padding-left: 22px;
+}
+/* cols + arrow: パネル間に矢印 */
+.cols.arrow {
+  @apply relative;
+  gap: 2em;
+}
+.cols.arrow::after {
+  content: "";
+  @apply absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 11px solid var(--color-accent);
+}
+
+/* ===========================
+   ポイント (.point)
+   =========================== */
+.point {
+  @apply flex items-center border-2 border-highlight;
+  border-radius: 34px;
+}
+.point > div:first-child {
+  @apply bg-highlight text-white font-black text-center rounded-full flex-shrink-0;
+  width: 68px;
+  height: 68px;
+  line-height: 1.3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  margin: -5px 0 -5px -5px;
+}
+.point > div:last-child {
+  @apply flex-1 text-body;
+  font-size: 20px;
+  padding: 10px 14px;
+}
+
+/* ===========================
+   セクション区切りヘッダー
+   =========================== */
+section[data-marpit-advanced-background] h2 {
+  text-shadow: none;
+}
