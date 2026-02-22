@@ -29,6 +29,7 @@
     --color-gray-50: oklch(98.5% 0.002 247.839);
     --color-gray-200: oklch(92.8% 0.006 264.531);
     --color-gray-300: oklch(87.2% 0.01 258.338);
+    --color-gray-400: oklch(70.7% 0.022 261.325);
     --color-gray-500: oklch(55.1% 0.027 264.364);
     --color-white: #fff;
     --spacing: 0.25rem;
@@ -45,6 +46,7 @@
     --radius-xl: 0.75rem;
     --color-accent: #82abda;
     --color-accent-dark: #4a83b5;
+    --color-accent-light: #e6eef8;
     --color-highlight: #ed7d31;
     --color-navy: #44546a;
     --color-muted: #6e747a;

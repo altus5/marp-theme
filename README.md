@@ -6,8 +6,9 @@ Marp 用カスタムテーマ集。
 
 | テーマ名          | ソース                                | 出力                         | 特徴                                   |
 | ----------------- | ------------------------------------- | ---------------------------- | -------------------------------------- |
-| `rooster-blue`    | `themes/rooster-blue.tailwind.css`    | `themes/rooster-blue.css`    | スチールブルー基調のビジネス向けテーマ |
-| `rooster-a4-mono` | `themes/rooster-a4-mono.tailwind.css` | `themes/rooster-a4-mono.css` | A4 仕様書向けフォーマルテーマ          |
+| `rooster-blue`    | `themes/rooster-blue.tailwind.css`    | `themes/rooster-blue.css`    | プレゼン用のスチールブルー基調のテーマ |
+| `rooster-a4-mono` | `themes/rooster-a4-mono.tailwind.css` | `themes/rooster-a4-mono.css` | A4 仕様書用のモノクロ基調のテーマ      |
+| `rooster-a4-blue` | `themes/rooster-a4-blue.tailwind.css` | `themes/rooster-a4-blue.css` | A4 仕様書用の青基調のテーマ            |
 
 テーマ CSS は Tailwind CSS v4 で記述されています。`.tailwind.css` がソースで、`build-theme.js` により `.css`（Marp が読み込む最終ファイル）にビルドされます。`@apply` でユーティリティを使用しつつ、Markdown 内でも Tailwind ユーティリティクラスを直接利用できます。
 
@@ -45,22 +46,26 @@ npx @marp-team/marp-cli --html --pdf \
 
 ```json
 {
+  "markdown.marp.html": "all",
   "markdown.marp.themes": [
     "https://raw.githubusercontent.com/altus5/marp-theme/main/themes/rooster-blue.css",
-    "https://raw.githubusercontent.com/altus5/marp-theme/main/themes/rooster-a4-mono.css"
+    "https://raw.githubusercontent.com/altus5/marp-theme/main/themes/rooster-a4-mono.css",
+    "https://raw.githubusercontent.com/altus5/marp-theme/main/themes/rooster-a4-blue.css"
   ]
 }
 ```
 
-#### ローカルファイルを使う場合
+#### ローカルにコピーして使う場合
 
 テーマ CSS をプロジェクト内に配置し、相対パスで指定します。
 
 ```json
 {
+  "markdown.marp.html": "all",
   "markdown.marp.themes": [
     "./themes/rooster-blue.css",
-    "./themes/rooster-a4-mono.css"
+    "./themes/rooster-a4-mono.css",
+    "./themes/rooster-a4-blue.css"
   ]
 }
 ```
@@ -120,6 +125,20 @@ A4 縦（210mm x 297mm）の仕様書・設計書向けテーマです。サン�
 MARP_THEME=rooster-a4-mono node scripts/build-pdf.js examples/rooster-a4-mono.md
 ```
 
+### rooster-a4-blue テーマについて
+
+rooster-a4-mono をベースに、ブルー基調の A4 テーマです。サンプルは `examples/rooster-a4-blue.md` を参照してください。
+
+- rooster-a4-mono と同じ A4 仕様書フォーマット（タイトル、改版履歴、目次、本文）
+- 見出しにブルー系カラー、テーブルヘッダーはブルー背景 + 白文字、縦罫線なしの水平罫線スタイル
+- タイトルページはブルー背景 + 下部に黒バー（会社名表示）
+- 注記・コラム・アラート・バナー等のコンポーネントを搭載
+
+```bash
+# PDF 生成
+MARP_THEME=rooster-a4-blue node scripts/build-pdf.js examples/rooster-a4-blue.md
+```
+
 ---
 
 ## ビルドスクリプトを使う（mermaid 図 + PDF 一括生成）
@@ -172,6 +191,7 @@ Marp の Markdown 内に mermaid コードブロックを直接書いても、�
 | `mermaid.config.json`         | mermaid デフォルト設定（`diagramPadding: 200` で余白付き SVG を生成） |
 | `examples/rooster-blue.md`    | rooster-blue テーマのサンプルスライド                                 |
 | `examples/rooster-a4-mono.md` | rooster-a4-mono テーマのサンプル仕様書                                |
+| `examples/rooster-a4-blue.md` | rooster-a4-blue テーマのサンプル仕様書                                |
 
 ### テーマ CSS のビルド
 
