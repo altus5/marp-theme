@@ -186,6 +186,7 @@ Marp の Markdown 内に mermaid コードブロックを直接書いても、�
 | `scripts/build-pdf.js`        | PDF ビルドスクリプト（テーマビルド → mermaid SVG 生成 → PDF 生成）    |
 | `scripts/build-theme.js`      | テーマ CSS ビルドスクリプト（Tailwind CSS → Marp テーマ CSS）         |
 | `scripts/update-headers.mjs`  | パンくずヘッダー自動更新スクリプト（見出し階層から `_header` を生成） |
+| `scripts/update-toc.mjs`      | 目次（TOC）自動更新スクリプト（h1・h2 から目次スライドを生成）        |
 | `themes/{name}.tailwind.css`  | テーマ CSS ソース（Tailwind v4 形式、`@apply` 使用）                  |
 | `themes/{name}.css`           | ビルド済みテーマ CSS（**生成ファイル — 直接編集しない**）             |
 | `themes/{name}.mermaid.json`  | テーマ別 mermaid 配色設定                                             |
@@ -220,6 +221,19 @@ node scripts/update-headers.mjs examples/rooster-a4-mono.md
 - h1 と h2 は `<a>` リンクとして生成
 - h2 を持たないスライドに h3 がある場合は `<span>` で表示（番号プレフィックスは自動除去）
 - `_class: title` / `_class: chapter` のスライドはスキップ
+
+### 目次（TOC）の自動更新
+
+A4 テーマでは、`# 目次` スライドに `<div class="toc">` で目次を配置します。見出し構成を変更した場合、以下のコマンドで目次を一括更新できます。
+
+```bash
+node scripts/update-toc.mjs examples/rooster-a4-blue.md
+node scripts/update-toc.mjs examples/rooster-a4-mono.md
+```
+
+- TOC スライドより後の h1・h2 を収集し、unordered list として生成
+- `_class: title` / `_class: toc-page` のスライドはスキップ
+- 既存 `<div class="toc">` があれば中身を置換、なければ `# 目次` の後に挿入
 - `<!-- _header: "..." -->` が存在するスライドのみ更新（新規挿入はしない）
 
 > **Tailwind ユーティリティの追加方法:** Markdown 内で新しい Tailwind クラス（例: `bg-green-100`）を使う場合は、`examples/rooster-blue.md` にもそのクラスを記載してください。テーマ CSS は `examples/` を基準にビルドされるため、ここに記載のないクラスは CSS に含まれません。
