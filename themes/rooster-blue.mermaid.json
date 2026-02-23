@@ -17,8 +17,5 @@
     "clusterBkg": "#E7E6E6",
     "clusterBorder": "#C0C0C0",
     "edgeLabelBackground": "#FFFFFF"
-  },
-  "flowchart": {
-    "diagramPadding": 200
   }
 }
