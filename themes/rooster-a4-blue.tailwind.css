@@ -383,6 +383,10 @@ header a {
   text-decoration: none;
   font-size: 10px;
 }
+header :is(a, span) ~ :is(a, span)::before {
+  content: ">";
+  margin: 0 0.5em;
+}
 header a:hover {
   color: var(--color-primary);
   text-decoration: underline;
@@ -726,35 +730,44 @@ section.toc-page h1 {
    目次 (.toc)
    章見出しに下罫線、節項目はインデント
    =========================== */
-.toc h3 {
+.toc > ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.toc > ul > li {
   font-family: var(--font-sans);
   color: var(--color-heading);
   font-weight: 700;
   font-size: 16px;
-  border: none;
-  border-bottom: 1px solid var(--color-border-light);
-  padding: 0 0 4px;
   margin: 18px 0 6px;
 }
-.toc h3:first-child {
+.toc > ul > li:first-child {
   margin-top: 0;
 }
-.toc h3 a {
+.toc > ul > li > a {
+  display: block;
   color: var(--color-heading);
   text-decoration: none;
+  border-bottom: 1px solid var(--color-border-light);
+  padding-bottom: 4px;
 }
-.toc p {
-  padding-left: 0;
-  margin: 3px 0;
-  font-size: 16px;
-  font-family: var(--font-sans);
+.toc > ul > li > ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+.toc > ul > li > ul > li {
   font-weight: 400;
+  margin: 3px 0;
+  border: none;
 }
-.toc p a {
+.toc > ul > li > ul > li > a {
   color: #555555;
   text-decoration: none;
 }
-.toc p a:hover {
+.toc > ul > li > ul > li > a:hover {
   color: var(--color-primary);
   text-decoration: underline;
 }

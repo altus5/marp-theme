@@ -347,6 +347,10 @@ header a {
   text-decoration: none;
   font-size: 11px;
 }
+header :is(a, span) ~ :is(a, span)::before {
+  content: ">";
+  margin: 0 0.5em;
+}
 header a:hover {
   color: var(--color-body);
   text-decoration: underline;

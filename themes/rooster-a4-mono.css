@@ -255,9 +255,6 @@
   .decoration-2 {
     text-decoration-thickness: 2px;
   }
-  .accent-dark {
-    accent-color: var(--color-dark);
-  }
   .shadow-lg {
     --tw-shadow: 0 10px 15px -3px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 4px 6px -4px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
@@ -532,6 +529,10 @@ header a {
   color: var(--color-muted);
   text-decoration: none;
   font-size: 11px;
+}
+header :is(a, span) ~ :is(a, span)::before {
+  content: ">";
+  margin: 0 0.5em;
 }
 header a:hover {
   color: var(--color-body);
