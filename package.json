@@ -5,6 +5,9 @@
     "@marp-team/marp-cli": "^4",
     "@mermaid-js/mermaid-cli": "^11",
     "@tailwindcss/cli": "^4",
-    "tailwindcss": "^4"
+    "remark-frontmatter": "^5.0.0",
+    "remark-parse": "^11.0.0",
+    "tailwindcss": "^4",
+    "unified": "^11.0.5"
   }
 }
