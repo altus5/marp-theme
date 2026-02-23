@@ -8,7 +8,6 @@ const { buildTheme } = require("./build-theme");
 
 // --- 設定 ---
 const PROJECT_ROOT = path.join(__dirname, "..");
-const DEFAULT_THEME = "rooster-blue";
 const PUPPETEER_CONFIG = path.join(PROJECT_ROOT, "puppeteer-config.json");
 
 // node_modules/.bin を PATH に追加（ローカル実行用）
@@ -28,7 +27,7 @@ const output = args[1] || path.join(inputDir, `${inputBase}.pdf`);
 
 // --- 環境変数 ---
 const workDir = process.env.WORK_DIR || ".";
-const themeName = process.env.MARP_THEME || DEFAULT_THEME;
+const themeName = process.env.MARP_THEME || null;
 
 process.chdir(workDir);
 
@@ -39,8 +38,10 @@ const TMP_TAG = "__marp_tmp__";
 function resolveMermaidConfig() {
   const local = "mermaid.config.json";
   if (existsSync(local)) return path.resolve(local);
-  const perTheme = path.join(PROJECT_ROOT, `themes/${themeName}.mermaid.json`);
-  if (existsSync(perTheme)) return perTheme;
+  if (themeName) {
+    const perTheme = path.join(PROJECT_ROOT, `themes/${themeName}.mermaid.json`);
+    if (existsSync(perTheme)) return perTheme;
+  }
   const fallback = path.join(PROJECT_ROOT, "mermaid.config.json");
   if (existsSync(fallback)) return fallback;
   return null;
@@ -168,15 +169,16 @@ function cleanup(tmpFiles) {
 // --- PDF 生成 ---
 function buildPdf(resolvedTheme, mdInput) {
   console.log(`[2/2] PDF 生成中...`);
+  const themeOpt = resolvedTheme ? `--theme "${resolvedTheme}"` : "";
   execSync(
-    `marp --html --pdf --allow-local-files --theme "${resolvedTheme}" "${mdInput}" -o "${output}"`,
+    `marp --html --pdf --allow-local-files ${themeOpt} "${mdInput}" -o "${output}"`,
     { stdio: "inherit" }
   );
 }
 
 // --- メイン ---
 async function main() {
-  const resolvedTheme = buildTheme({ themeName });
+  const resolvedTheme = themeName ? buildTheme({ themeName }) : null;
 
   console.log("[1/2] mermaid SVG 生成中...");
   buildMermaidSvgs();
