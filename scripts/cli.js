@@ -30,7 +30,6 @@ if (!input) {
 }
 
 // --- 環境変数 ---
-const workDir = process.env.WORK_DIR || ".";
 const themeName = process.env.MARP_THEME || null;
 
 // --- 一時ファイルのプレフィックス ---
@@ -38,7 +37,7 @@ const TMP_TAG = "__marp_tmp__";
 
 // --- mermaid config 解決: プロジェクト側 > テーマ別 > 共通デフォルト ---
 function resolveMermaidConfig() {
-  const local = path.resolve(workDir, "mermaid.config.json");
+  const local = path.resolve("mermaid.config.json");
   if (existsSync(local)) return local;
   if (themeName) {
     const perTheme = path.join(PROJECT_ROOT, `themes/${themeName}.mermaid.json`);
@@ -169,8 +168,6 @@ async function cmdPdf() {
   const inputDir = path.dirname(input);
   const inputBase = path.basename(input, ".md");
 
-  process.chdir(workDir);
-
   // テーマビルド: MARP_THEME 設定時のみ実行、未設定時は .marprc.yml から marp が解決
   const resolvedTheme = themeName ? buildTheme({ themeName }) : null;
 
@@ -222,7 +219,7 @@ function cmdPptx() {
 
   execSync(
     `marp --html --pptx --allow-local-files ${themeOpt} ${extraArgs} "${input}"`,
-    { stdio: ["ignore", "inherit", "inherit"], cwd: workDir }
+    { stdio: ["ignore", "inherit", "inherit"] }
   );
 }
 
