@@ -201,7 +201,7 @@ async function cmdPdf() {
   const themeOpt = resolvedTheme ? `--theme "${resolvedTheme}"` : "";
   execSync(
     `marp --html --pdf --allow-local-files ${themeOpt} "${mdForMarp}" -o "${output}"`,
-    { stdio: "inherit" }
+    { stdio: ["ignore", "inherit", "inherit"] }
   );
 
   if (tmpFiles.length > 0) cleanup(tmpFiles);
@@ -222,7 +222,7 @@ function cmdPptx() {
 
   execSync(
     `marp --html --pptx --allow-local-files ${themeOpt} ${extraArgs} "${input}"`,
-    { stdio: "inherit", cwd: workDir }
+    { stdio: ["ignore", "inherit", "inherit"], cwd: workDir }
   );
 }
 
