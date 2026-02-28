@@ -1,6 +1,12 @@
 {
   "name": "marp-theme",
-  "private": true,
+  "version": "1.0.0",
+  "bin": {
+    "marp-build": "./scripts/cli.js"
+  },
+  "scripts": {
+    "build:examples": "./scripts/build-examples.sh"
+  },
   "dependencies": {
     "@marp-team/marp-cli": "^4",
     "@mermaid-js/mermaid-cli": "^11",

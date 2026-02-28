@@ -80,6 +80,42 @@ npx @marp-team/marp-cli --html --pdf \
   slides.md
 ```
 
+## npm パッケージとしてインストール
+
+GitHub dependency として `npm install` し、`npx marp-build` でビルドできます。
+
+```bash
+npm install github:altus5/marp-theme
+```
+
+### テーマの登録（`.marprc.yml`）
+
+プロジェクトのルートに `.marprc.yml` を作成し、使用するテーマ CSS を `themeSet` に登録します。VS Code の `markdown.marp.themes` と同じ役割です。
+
+```yaml
+themeSet:
+  - node_modules/marp-theme/themes/rooster-blue.css
+  - node_modules/marp-theme/themes/rooster-a4-blue.css
+  - node_modules/marp-theme/themes/rooster-a4-mono.css
+```
+
+これにより、フロントマターの `theme: rooster-blue` が自動的に解決されます。
+
+### CLI: PDF 生成
+
+mermaid 図の自動 SVG 変換を含む PDF 生成を行います。
+
+```bash
+npx marp-build pdf slides.md
+npx marp-build pdf slides.md output.pdf
+```
+
+### CLI: PPTX 生成
+
+```bash
+npx marp-build pptx slides.md -o output.pptx
+```
+
 ## ビルドスクリプト（mermaid 図 + PDF 一括生成）
 
 mermaid 図の自動 SVG 変換、テーマビルド、PDF 生成を一括で行うスクリプトも提供しています。Markdown 内のインライン mermaid（` ```mermaid `）と外部 `.mmd` ファイルの両方に対応しています。

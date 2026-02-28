@@ -10,34 +10,36 @@ const { buildTheme } = require("./build-theme");
 const PROJECT_ROOT = path.join(__dirname, "..");
 const PUPPETEER_CONFIG = path.join(PROJECT_ROOT, "puppeteer-config.json");
 
-// node_modules/.bin を PATH に追加（ローカル実行用）
+// node_modules/.bin を PATH に追加
 const binDir = path.join(PROJECT_ROOT, "node_modules", ".bin");
 process.env.PATH = `${binDir}${path.delimiter}${process.env.PATH}`;
 
 // --- 引数パース ---
 const args = process.argv.slice(2);
-if (args.length === 0) {
-  console.error("Usage: build-pdf.js <input.md> [output.pdf]");
+const subcommand = args[0];
+
+if (!subcommand || !["pdf", "pptx"].includes(subcommand)) {
+  console.error("Usage: marp-build <pdf|pptx> <input.md> [output]");
   process.exit(1);
 }
-const input = args[0];
-const inputDir = path.dirname(input);
-const inputBase = path.basename(input, ".md");
-const output = args[1] || path.join(inputDir, `${inputBase}.pdf`);
+
+const input = args[1];
+if (!input) {
+  console.error("Usage: marp-build <pdf|pptx> <input.md> [output]");
+  process.exit(1);
+}
 
 // --- 環境変数 ---
 const workDir = process.env.WORK_DIR || ".";
 const themeName = process.env.MARP_THEME || null;
-
-process.chdir(workDir);
 
 // --- 一時ファイルのプレフィックス ---
 const TMP_TAG = "__marp_tmp__";
 
 // --- mermaid config 解決: プロジェクト側 > テーマ別 > 共通デフォルト ---
 function resolveMermaidConfig() {
-  const local = "mermaid.config.json";
-  if (existsSync(local)) return path.resolve(local);
+  const local = path.resolve(workDir, "mermaid.config.json");
+  if (existsSync(local)) return local;
   if (themeName) {
     const perTheme = path.join(PROJECT_ROOT, `themes/${themeName}.mermaid.json`);
     if (existsSync(perTheme)) return perTheme;
@@ -70,7 +72,7 @@ function fixSvgWidth(svgPath) {
 }
 
 // --- mermaid SVG 生成（外部 .mmd ファイル） ---
-function buildMermaidSvgs() {
+function buildMermaidSvgs(inputDir, inputBase) {
   const scanDir = inputDir === "." ? "." : inputDir;
   const prefix = `${inputBase}_`;
   const mmdFiles = readdirSync(scanDir)
@@ -88,7 +90,6 @@ function buildMermaidSvgs() {
     execSync(`mmdc -i "${mmdPath}" -o "${svgPath}" ${configOpt} -p "${PUPPETEER_CONFIG}" --width 1200`, {
       stdio: "inherit",
     });
-    // mmdc が生成する中間ファイル (.mmd.svg) を削除
     const intermediate = `${mmdPath}.svg`;
     if (existsSync(intermediate)) unlinkSync(intermediate);
     fixSvgWidth(svgPath);
@@ -117,7 +118,7 @@ async function extractInlineMermaid(markdown) {
 }
 
 // --- インライン mermaid → SVG 生成 ---
-function buildInlineMermaidSvgs(blocks) {
+function buildInlineMermaidSvgs(blocks, inputDir, inputBase) {
   const config = resolveMermaidConfig();
   const configOpt = config ? `-c "${config}"` : "";
   const scanDir = inputDir === "." ? "." : inputDir;
@@ -131,7 +132,6 @@ function buildInlineMermaidSvgs(blocks) {
     execSync(`mmdc -i "${mmdPath}" -o "${svgPath}" ${configOpt} -p "${PUPPETEER_CONFIG}" --width 1200`, {
       stdio: "inherit",
     });
-    // mmdc が生成する中間ファイル (.mmd.svg) を削除
     const intermediate = `${mmdPath}.svg`;
     if (existsSync(intermediate)) unlinkSync(intermediate);
     fixSvgWidth(svgPath);
@@ -141,11 +141,10 @@ function buildInlineMermaidSvgs(blocks) {
 }
 
 // --- 一時 Markdown 生成（mermaid ブロック → 画像参照に置換） ---
-function createTempMarkdown(src, blocks, svgPaths) {
+function createTempMarkdown(src, blocks, svgPaths, inputDir, inputBase) {
   const scanDir = inputDir === "." ? "." : inputDir;
   const tmpMdPath = path.join(scanDir, `${inputBase}.${TMP_TAG}.md`);
 
-  // 後ろから置換してオフセットを壊さない
   let result = src;
   for (let i = blocks.length - 1; i >= 0; i--) {
     const svgRelative = path.basename(svgPaths[i]);
@@ -160,28 +159,23 @@ function createTempMarkdown(src, blocks, svgPaths) {
 // --- 一時ファイル削除 ---
 function cleanup(tmpFiles) {
   for (const f of tmpFiles) {
-    if (existsSync(f)) {
-      unlinkSync(f);
-    }
+    if (existsSync(f)) unlinkSync(f);
   }
 }
 
-// --- PDF 生成 ---
-function buildPdf(resolvedTheme, mdInput) {
-  console.log(`[2/2] PDF 生成中...`);
-  const themeOpt = resolvedTheme ? `--theme "${resolvedTheme}"` : "";
-  execSync(
-    `marp --html --pdf --allow-local-files ${themeOpt} "${mdInput}" -o "${output}"`,
-    { stdio: "inherit" }
-  );
-}
+// --- PDF サブコマンド ---
+async function cmdPdf() {
+  const output = args[2] || path.join(path.dirname(input), `${path.basename(input, ".md")}.pdf`);
+  const inputDir = path.dirname(input);
+  const inputBase = path.basename(input, ".md");
 
-// --- メイン ---
-async function main() {
+  process.chdir(workDir);
+
+  // テーマビルド: MARP_THEME 設定時のみ実行、未設定時は .marprc.yml から marp が解決
   const resolvedTheme = themeName ? buildTheme({ themeName }) : null;
 
   console.log("[1/2] mermaid SVG 生成中...");
-  buildMermaidSvgs();
+  buildMermaidSvgs(inputDir, inputBase);
 
   // インライン mermaid 処理
   const markdown = readFileSync(input, "utf8");
@@ -191,11 +185,10 @@ async function main() {
   let mdForMarp = input;
   if (blocks.length > 0) {
     console.log(`  インライン mermaid ブロック: ${blocks.length} 件検出`);
-    const svgPaths = buildInlineMermaidSvgs(blocks);
-    const tmpMdPath = createTempMarkdown(markdown, blocks, svgPaths);
+    const svgPaths = buildInlineMermaidSvgs(blocks, inputDir, inputBase);
+    const tmpMdPath = createTempMarkdown(markdown, blocks, svgPaths, inputDir, inputBase);
 
     mdForMarp = tmpMdPath;
-    // 一時ファイルリスト（cleanup 用）
     tmpFiles.push(tmpMdPath);
     for (let i = 0; i < blocks.length; i++) {
       const scanDir = inputDir === "." ? "." : inputDir;
@@ -204,13 +197,42 @@ async function main() {
     }
   }
 
-  buildPdf(resolvedTheme, mdForMarp);
+  console.log("[2/2] PDF 生成中...");
+  const themeOpt = resolvedTheme ? `--theme "${resolvedTheme}"` : "";
+  execSync(
+    `marp --html --pdf --allow-local-files ${themeOpt} "${mdForMarp}" -o "${output}"`,
+    { stdio: "inherit" }
+  );
 
-  if (tmpFiles.length > 0) {
-    cleanup(tmpFiles);
+  if (tmpFiles.length > 0) cleanup(tmpFiles);
+  console.log(`完了: ${output}`);
+}
+
+// --- PPTX サブコマンド ---
+function cmdPptx() {
+  const extraArgs = args.slice(2).map((a) => `"${a}"`).join(" ");
+
+  // MARP_THEME 設定時は明示的に --theme を渡す（ローカル開発用）
+  // 未設定時は .marprc.yml の themeSet から marp が自動解決
+  let themeOpt = "";
+  if (themeName) {
+    const themeCSS = path.join(PROJECT_ROOT, "themes", `${themeName}.css`);
+    themeOpt = `--theme "${themeCSS}"`;
   }
 
-  console.log(`完了: ${output}`);
+  execSync(
+    `marp --html --pptx --allow-local-files ${themeOpt} ${extraArgs} "${input}"`,
+    { stdio: "inherit", cwd: workDir }
+  );
+}
+
+// --- メイン ---
+async function main() {
+  if (subcommand === "pdf") {
+    await cmdPdf();
+  } else {
+    cmdPptx();
+  }
 }
 
 main().catch((err) => {
