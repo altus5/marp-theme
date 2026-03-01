@@ -560,6 +560,406 @@ section::after {
 }
 
 /* ===========================
+   インフォカード (.info-card)
+   白背景・角丸・枠線のカードパネル
+   =========================== */
+.info-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 24px;
+  background: #fff;
+}
+.info-card.accent {
+  border: 2px solid var(--color-accent);
+}
+.info-card.highlight {
+  border: 2px solid var(--color-highlight);
+}
+
+/* ===========================
+   カードタイトル・サブタイトル
+   .info-card 内での見出し表示
+   =========================== */
+.card-title {
+  @apply font-black text-body;
+  font-size: 20px;
+  margin: 0;
+}
+.card-subtitle {
+  @apply text-muted;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  margin-bottom: 12px;
+}
+
+/* ===========================
+   アイコンバッジ (.icon-badge)
+   アイコンを角丸四角の背景内に配置
+   =========================== */
+.icon-badge {
+  @apply bg-accent-light flex-shrink-0;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+.icon-badge .material-symbols-outlined {
+  @apply text-accent-dark;
+  font-size: 28px;
+}
+.icon-badge.highlight {
+  background: #fdf2e0;
+}
+.icon-badge.highlight .material-symbols-outlined {
+  @apply text-highlight;
+}
+
+/* --- 小サイズ (.icon-badge-sm) --- */
+.icon-badge-sm {
+  background: rgba(130, 171, 218, 0.10);
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.icon-badge-sm .material-symbols-outlined {
+  @apply text-accent;
+  font-size: 22px;
+}
+
+/* ===========================
+   アイコンリスト (.icon-list)
+   アイコン + タイトル + 説明の縦並びリスト
+   =========================== */
+.icon-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.icon-list-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.icon-list-item .item-title {
+  @apply font-black text-navy;
+  font-size: 16px;
+}
+.icon-list-item .item-desc {
+  @apply text-muted;
+  font-size: 16px;
+}
+
+/* ===========================
+   メトリック表示 (.metric)
+   大きな数値 + ラベルの組み合わせ
+   =========================== */
+.metric {
+  text-align: center;
+}
+.metric-icon .material-symbols-outlined {
+  @apply text-accent;
+  font-size: 26px;
+}
+.metric-label-top {
+  @apply text-accent font-bold;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+}
+.metric-value {
+  @apply font-black text-navy;
+  font-size: 36px;
+  line-height: 1.1;
+}
+.metric-value.accent {
+  @apply text-accent;
+}
+.metric-label {
+  @apply text-muted;
+  font-size: 14px;
+  margin-top: 2px;
+}
+
+/* ===========================
+   プロセスフロー (.process-flow)
+   水平ステップ表示（丸アイコン + シェブロン）
+   =========================== */
+.process-flow {
+  display: flex;
+  align-items: flex-start;
+}
+.process-flow-step {
+  flex: 1;
+  text-align: center;
+}
+.process-flow-icon {
+  @apply bg-accent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  margin-bottom: 8px;
+}
+.process-flow-icon .material-symbols-outlined {
+  font-size: 28px;
+  color: white;
+}
+.process-flow-icon.highlight {
+  @apply bg-highlight;
+}
+.process-flow-chevron {
+  display: flex;
+  align-items: center;
+  padding-top: 16px;
+}
+
+/* ===========================
+   ナンバードサークル (.numbered-circle)
+   番号付き丸アイコン
+   =========================== */
+.numbered-circle {
+  @apply bg-accent text-white font-black flex-shrink-0;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+.numbered-circle.highlight {
+  @apply bg-highlight;
+}
+
+/* ===========================
+   ゴールパネル (.goal-panel)
+   上部ボーダー付き背景パネル
+   =========================== */
+.goal-panel {
+  border-top: 4px solid var(--color-accent);
+  padding: 20px 24px;
+  @apply bg-accent-light;
+  border-radius: 0 0 8px 8px;
+}
+.goal-panel .goal-label {
+  @apply text-accent font-bold;
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  margin-bottom: 6px;
+}
+.goal-panel .goal-title {
+  @apply font-black text-navy;
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+.goal-panel .goal-body {
+  @apply text-muted;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+/* ===========================
+   セクション区切りスライド (.section-divider)
+   英語ラベル + アンダーライン + 日本語タイトル
+   + 大見出し + 左ボーダー付きサブテキスト
+   =========================== */
+.section-divider {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  padding: 0 50px;
+}
+.section-divider-label {
+  @apply inline-block text-accent font-bold text-sm;
+  letter-spacing: 0.1em;
+}
+.section-divider-header {
+  @apply flex items-center gap-2;
+  margin-top: 4px;
+  margin-bottom: 24px;
+}
+.section-divider-header::before {
+  content: "";
+  @apply inline-block bg-blue-600;
+  width: 32px;
+  height: 3px;
+}
+.section-divider-header span {
+  @apply font-bold text-navy text-lg;
+}
+.section-divider-title {
+  @apply font-black text-accent;
+  font-size: 48px;
+  line-height: 1.2;
+}
+.section-divider-sub {
+  @apply border-l-4 border-gray-400;
+  padding-left: 24px;
+  margin-top: 24px;
+  margin-left: 8px;
+}
+.section-divider-sub .en {
+  @apply text-body;
+  font-family: "Rowdies", sans-serif;
+  line-height: 1.2;
+  font-size: 22px;
+}
+.section-divider-sub .ja {
+  @apply text-muted text-sm;
+  margin-top: 8px;
+}
+
+/* ===========================
+   ラダーバッジ (.ladder-badge)
+   等級表示用バッジ（M/E/S の 3 色）
+   =========================== */
+.ladder-badge {
+  @apply text-white font-bold;
+  font-size: 14px;
+  padding: 3px 10px;
+  border-radius: 3px;
+  display: inline-block;
+}
+.ladder-badge.mgmt {
+  @apply bg-accent-dark;
+}
+.ladder-badge.tech {
+  @apply bg-accent;
+}
+.ladder-badge.std {
+  @apply bg-muted;
+}
+.ladder-badge.entry {
+  @apply bg-highlight;
+}
+
+/* ===========================
+   ラダー行 (.ladder-row)
+   キャリアラダー表の行
+   =========================== */
+.ladder-table {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.ladder-row {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #e0e0e0;
+}
+.ladder-row:last-child {
+  border-bottom: none;
+}
+.ladder-row.upper {
+  @apply bg-accent-light;
+}
+.ladder-row.lower {
+  background: #f5f5f5;
+}
+.ladder-row.start {
+  background: #fdf2e0;
+}
+.ladder-lv {
+  @apply font-black text-muted;
+  width: 56px;
+  text-align: center;
+  font-size: 16px;
+  padding: 10px 0;
+}
+.ladder-cell {
+  flex: 1;
+  display: flex;
+  gap: 6px;
+  padding: 9px 10px;
+  align-items: center;
+}
+.ladder-cell .title {
+  @apply font-bold text-navy;
+  font-size: 16px;
+}
+
+/* ===========================
+   スケジュールタイムライン (.schedule-timeline)
+   時刻 + ドット + ラベルの縦並び
+   =========================== */
+.schedule-timeline {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-image: linear-gradient(#d0d5dd, #d0d5dd);
+  background-size: 2px calc(100% - 6px);
+  background-position: 66px 6px;
+  background-repeat: no-repeat;
+}
+.schedule-entry {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.schedule-time {
+  @apply font-black text-accent;
+  font-size: 16px;
+  width: 50px;
+  min-width: 50px;
+  text-align: right;
+  white-space: nowrap;
+}
+.schedule-time.end {
+  color: #d0d5dd;
+}
+.schedule-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  @apply bg-accent;
+  flex-shrink: 0;
+}
+.schedule-dot.end {
+  background: #d0d5dd;
+}
+.schedule-label {
+  @apply font-bold text-navy;
+  font-size: 16px;
+}
+
+/* ===========================
+   ステップカード (.step-card)
+   番号丸 + タイトル + 説明（縦フロー内）
+   =========================== */
+.step-card {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 14px 18px;
+}
+.step-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.step-card-header .title {
+  @apply font-bold text-navy;
+  font-size: 17px;
+}
+.step-card-body {
+  @apply text-muted;
+  font-size: 15px;
+  padding-left: 36px;
+}
+
+/* ===========================
    セクション区切りヘッダー
    =========================== */
 section[data-marpit-advanced-background] h2 {

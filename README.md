@@ -82,7 +82,7 @@ npx @marp-team/marp-cli --html --pdf \
 
 ## npm パッケージとしてインストール
 
-GitHub dependency として `npm install` し、`npx marp-build` でビルドできます。
+GitHub dependency として `npm install` し、`marp-build` コマンドでビルドできます。
 
 ```bash
 npm install github:altus5/marp-theme
@@ -106,14 +106,14 @@ themeSet:
 mermaid 図の自動 SVG 変換を含む PDF 生成を行います。
 
 ```bash
-npx marp-build pdf slides.md
-npx marp-build pdf slides.md output.pdf
+marp-build pdf slides.md
+marp-build pdf slides.md output.pdf
 ```
 
 ### CLI: PPTX 生成
 
 ```bash
-npx marp-build pptx slides.md -o output.pptx
+marp-build pptx slides.md -o output.pptx
 ```
 
 ## ビルドスクリプト（mermaid 図 + PDF 一括生成）
