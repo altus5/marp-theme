@@ -20,4 +20,4 @@ ENV PATH="/marp-theme/node_modules/.bin:$PATH"
 
 COPY . .
 
-ENTRYPOINT ["node", "/marp-theme/scripts/build-pdf.js"]
+ENTRYPOINT ["node", "/marp-theme/scripts/cli.js"]

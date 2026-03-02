@@ -22,21 +22,20 @@ npm install
 
 ```bash
 # 基本
-WORK_DIR=/path/to/project node /path/to/marp-theme/scripts/build-pdf.js slides.md
+node /path/to/marp-theme/scripts/cli.js pdf slides.md
 
 # 出力ファイル名を指定
-WORK_DIR=/path/to/project node /path/to/marp-theme/scripts/build-pdf.js slides.md output.pdf
+node /path/to/marp-theme/scripts/cli.js pdf slides.md output.pdf
 
 # テーマを切り替え
-MARP_THEME=rooster-a4-blue WORK_DIR=/path/to/project node /path/to/marp-theme/scripts/build-pdf.js slides.md
+MARP_THEME=rooster-a4-blue node /path/to/marp-theme/scripts/cli.js pdf slides.md
 ```
 
 ## 環境変数
 
 | 変数         | デフォルト     | 説明                                           |
 | ------------ | -------------- | ---------------------------------------------- |
-| `WORK_DIR`   | `.`            | プロジェクトディレクトリのパス                 |
-| `MARP_THEME` | `rooster-blue` | 使用するテーマ名（`themes/{name}.css` に対応） |
+| `MARP_THEME` | （なし）       | 使用するテーマ名（`themes/{name}.css` に対応）。未設定時はフロントマターの `theme` から解決 |
 
 ## mermaid 事前変換
 
@@ -86,7 +85,7 @@ Markdown ファイルが `slides.md` の場合:
 
 | ファイル                               | 説明                                                                  |
 | -------------------------------------- | --------------------------------------------------------------------- |
-| `scripts/build-pdf.js`                 | PDF ビルドスクリプト（テーマビルド → mermaid SVG 生成 → PDF 生成）    |
+| `scripts/cli.js`                       | メイン CLI（`marp-build pdf\|pptx`）— テーマビルド → mermaid SVG 生成 → PDF/PPTX 生成 |
 | `scripts/build-theme.js`               | テーマ CSS ビルドスクリプト（Tailwind CSS → Marp テーマ CSS）         |
 | `scripts/update-headers.mjs`           | パンくずヘッダー自動更新スクリプト（見出し階層から `_header` を生成） |
 | `scripts/update-toc.mjs`               | 目次（TOC）自動更新スクリプト（h1・h2 から目次スライドを生成）        |
@@ -104,14 +103,12 @@ Markdown ファイルが `slides.md` の場合:
 `rooster-blue.css` は `.tailwind.css` から生成されるファイルです。テーマの CSS を変更した場合や、`examples/rooster-blue.md` に新しい Tailwind ユーティリティクラスを追加した場合に再ビルドが必要です。
 
 ```bash
-# テーマ CSS のみビルド
-node scripts/build-theme.js
-
-# テーマを指定
+# テーマ CSS のみビルド（MARP_THEME 必須）
+MARP_THEME=rooster-blue node scripts/build-theme.js
 MARP_THEME=rooster-a4-blue node scripts/build-theme.js
 ```
 
-`build-pdf.js` は内部で `build-theme.js` を呼ぶため、PDF 生成時にテーマも自動でリビルドされます。
+`cli.js` は内部で `build-theme.js` を呼ぶため、PDF 生成時にテーマも自動でリビルドされます。
 
 ## パンくずヘッダーの自動更新
 
@@ -156,16 +153,16 @@ docker compose -f docker/docker-compose.yml build
 
 ```bash
 # プロジェクトディレクトリを指定して実行
-PROJECT_DIR=/path/to/project docker compose -f docker/docker-compose.yml run --rm marp slides.md
+PROJECT_DIR=/path/to/project docker compose -f docker/docker-compose.yml run --rm marp pdf slides.md
 
 # 出力ファイル名を指定
-PROJECT_DIR=/path/to/project docker compose -f docker/docker-compose.yml run --rm marp slides.md output.pdf
+PROJECT_DIR=/path/to/project docker compose -f docker/docker-compose.yml run --rm marp pdf slides.md output.pdf
 
 # テーマを切り替え
-PROJECT_DIR=/path/to/project docker compose -f docker/docker-compose.yml run --rm -e MARP_THEME=rooster-a4-blue marp slides.md
+PROJECT_DIR=/path/to/project docker compose -f docker/docker-compose.yml run --rm -e MARP_THEME=rooster-a4-blue marp pdf slides.md
 ```
 
-`PROJECT_DIR` でプロジェクトディレクトリをマウントし、引数で Markdown ファイルを指定します。
+`PROJECT_DIR` でプロジェクトディレクトリをマウントし、サブコマンド（`pdf` / `pptx`）と Markdown ファイルを指定します。
 
 ### mermaid 設定の上書き
 

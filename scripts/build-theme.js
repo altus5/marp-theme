@@ -53,7 +53,12 @@ function buildTheme({ themeName = DEFAULT_THEME } = {}) {
 
 // --- CLI として実行された場合 ---
 if (require.main === module) {
-  const themeName = process.env.MARP_THEME || DEFAULT_THEME;
+  const themeName = process.env.MARP_THEME;
+  if (!themeName) {
+    console.error("エラー: MARP_THEME 環境変数を指定してください");
+    console.error("例: MARP_THEME=rooster-blue node scripts/build-theme.js");
+    process.exit(1);
+  }
   const result = buildTheme({ themeName });
   console.log(`完了: ${result}`);
 }

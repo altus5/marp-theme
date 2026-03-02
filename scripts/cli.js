@@ -29,8 +29,17 @@ if (!input) {
   process.exit(1);
 }
 
-// --- 環境変数 ---
-const themeName = process.env.MARP_THEME || null;
+// --- テーマ解決: MARP_THEME 環境変数 > フロントマターの theme ---
+function resolveThemeName() {
+  if (process.env.MARP_THEME) return process.env.MARP_THEME;
+  const content = readFileSync(input, "utf8");
+  const m = content.match(/^---\n[\s\S]*?^theme:\s*(\S+)/m);
+  if (m) return m[1];
+  console.error("エラー: テーマが見つかりません");
+  console.error("MARP_THEME 環境変数を設定するか、フロントマターに theme を記述してください");
+  process.exit(1);
+}
+const themeName = resolveThemeName();
 
 // --- 一時ファイルのプレフィックス ---
 const TMP_TAG = "__marp_tmp__";
@@ -168,8 +177,8 @@ async function cmdPdf() {
   const inputDir = path.dirname(input);
   const inputBase = path.basename(input, ".md");
 
-  // テーマビルド: MARP_THEME 設定時のみ実行、未設定時は .marprc.yml から marp が解決
-  const resolvedTheme = themeName ? buildTheme({ themeName }) : null;
+  // テーマビルド
+  const resolvedTheme = buildTheme({ themeName });
 
   console.log("[1/2] mermaid SVG 生成中...");
   buildMermaidSvgs(inputDir, inputBase);
@@ -195,7 +204,7 @@ async function cmdPdf() {
   }
 
   console.log("[2/2] PDF 生成中...");
-  const themeOpt = resolvedTheme ? `--theme "${resolvedTheme}"` : "";
+  const themeOpt = `--theme "${resolvedTheme}"`;
   execSync(
     `marp --html --pdf --allow-local-files ${themeOpt} "${mdForMarp}" -o "${output}"`,
     { stdio: ["ignore", "inherit", "inherit"] }
@@ -209,13 +218,8 @@ async function cmdPdf() {
 function cmdPptx() {
   const extraArgs = args.slice(2).map((a) => `"${a}"`).join(" ");
 
-  // MARP_THEME 設定時は明示的に --theme を渡す（ローカル開発用）
-  // 未設定時は .marprc.yml の themeSet から marp が自動解決
-  let themeOpt = "";
-  if (themeName) {
-    const themeCSS = path.join(PROJECT_ROOT, "themes", `${themeName}.css`);
-    themeOpt = `--theme "${themeCSS}"`;
-  }
+  const themeCSS = path.join(PROJECT_ROOT, "themes", `${themeName}.css`);
+  const themeOpt = `--theme "${themeCSS}"`;
 
   execSync(
     `marp --html --pptx --allow-local-files ${themeOpt} ${extraArgs} "${input}"`,

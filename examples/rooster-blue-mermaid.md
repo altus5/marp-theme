@@ -42,7 +42,7 @@ footer: "© 2026 Your Company"
 
 ```mermaid
 graph LR
-    A[Markdown] --> B[build-pdf.js]
+    A[Markdown] --> B[marp-build]
     B --> C[AST解析]
     C --> D[SVG生成]
     D --> E[PDF出力]
