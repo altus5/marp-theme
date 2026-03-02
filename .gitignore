@@ -1,2 +1,4 @@
 node_modules/
 themes/*.entry.css
+.regression/*/current/
+.regression/*/diff/

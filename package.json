@@ -2,10 +2,12 @@
   "name": "marp-theme",
   "version": "1.0.0",
   "bin": {
-    "marp-build": "./scripts/cli.js"
+    "marp-build": "./scripts/cli.js",
+    "marp-regression": "./scripts/regression-test.js"
   },
   "scripts": {
-    "build:examples": "./scripts/build-examples.sh"
+    "build:examples": "./scripts/build-examples.sh",
+    "test:regression": "node scripts/regression-test.js examples"
   },
   "dependencies": {
     "@marp-team/marp-cli": "^4",
@@ -14,6 +16,8 @@
     "remark-frontmatter": "^5.0.0",
     "remark-parse": "^11.0.0",
     "tailwindcss": "^4",
+    "pixelmatch": "^6",
+    "pngjs": "^7",
     "unified": "^11.0.5"
   }
 }
