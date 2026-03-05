@@ -16768,6 +16768,47 @@ section::after {
 .process-flow-step {
   flex: 1;
   text-align: center;
+  position: relative;
+}
+.process-flow-step[data-icon]::before {
+  background-color: var(--color-accent);
+  content: attr(data-icon);
+  font-family: "Material Symbols Outlined";
+  line-height: 1;
+  color: white;
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  margin: 0 auto 8px;
+}
+.process-flow-step.highlight[data-icon]::before {
+  background-color: var(--color-highlight);
+}
+.process-flow-step:not(:last-child)::after {
+  content: "chevron_right";
+  font-family: "Material Symbols Outlined";
+  font-size: 24px;
+  color: #d0d5dd;
+  position: absolute;
+  right: 0;
+  top: 16px;
+  transform: translateX(50%);
+}
+.process-flow-step > p:first-of-type {
+  --tw-font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-navy);
+  font-size: 18px;
+  margin: 0;
+}
+.process-flow-step > p + p {
+  color: var(--color-muted);
+  font-size: 16px;
+  margin: 4px 0 0;
 }
 .process-flow-icon {
   background-color: var(--color-accent);

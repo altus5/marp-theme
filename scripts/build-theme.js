@@ -29,6 +29,12 @@ function buildTheme({ themeName = DEFAULT_THEME } = {}) {
 
   if (!existsSync(tailwindSrc)) return themeFile;
 
+  // npm 依存としてインストールされた場合はビルド済み CSS をそのまま使う
+  const isInstalledAsDependency = PROJECT_ROOT.split(path.sep).includes("node_modules");
+  if (isInstalledAsDependency && existsSync(themeFile)) {
+    return themeFile;
+  }
+
   const combinedFile = themeFile;
   const entryFile = path.join(PROJECT_ROOT, `themes/${themeName}.entry.css`);
 

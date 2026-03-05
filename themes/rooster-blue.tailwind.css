@@ -1112,6 +1112,7 @@ section::after {
 /* ===========================
    プロセスフロー (.process-flow)
    水平ステップ表示（丸アイコン + シェブロン）
+   Markdown: data-icon + **タイトル** + 説明文
    =========================== */
 .process-flow {
   display: flex;
@@ -1120,7 +1121,47 @@ section::after {
 .process-flow-step {
   flex: 1;
   text-align: center;
+  position: relative;
 }
+/* data-icon → アイコン円（::before） */
+.process-flow-step[data-icon]::before {
+  @apply material-icon bg-accent;
+  color: white;
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  margin: 0 auto 8px;
+}
+.process-flow-step.highlight[data-icon]::before {
+  @apply bg-highlight;
+}
+/* 自動シェブロン（::after、最後以外） */
+.process-flow-step:not(:last-child)::after {
+  content: "chevron_right";
+  font-family: "Material Symbols Outlined";
+  font-size: 24px;
+  color: #d0d5dd;
+  position: absolute;
+  right: 0;
+  top: 16px;
+  transform: translateX(50%);
+}
+/* Markdown 段落: タイトル + 説明 */
+.process-flow-step > p:first-of-type {
+  @apply text-navy font-bold;
+  font-size: 18px;
+  margin: 0;
+}
+.process-flow-step > p + p {
+  @apply text-muted;
+  font-size: 16px;
+  margin: 4px 0 0;
+}
+/* 後方互換: 既存の HTML 構造 */
 .process-flow-icon {
   @apply bg-accent;
   display: inline-flex;
